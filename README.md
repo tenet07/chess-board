@@ -1,81 +1,18 @@
+# Chess (Pawns Only)
 
+## Problem Statement
 
-<!-- CHESS -->
+Build a simplified, two-player chess variant played with pawns only on a standard 8x8 board.
 
-  64 x 64 
-
-p - 8+8 
-
-0  1  2  3 .. 8
-1
-2
-3
-..
-8
-
-Board Initial state : 
-R , C 
-
-[
-    [0,0], [0,1], [0,2], [0,3],[0,4], [0,5], [0,6], [0,7],  ---- T1 
-    [1,0], [1,1], [1,2], [1,3],[1,4], [1,5], [1,6], [1,7],
-    .
-    .
-    [6,0], [6,1], [6,2],
-    [7,0], [7,1], [7,2], [7,3],[7,4], [7,5], [7,6], [7,7]   --   T2
-]
-
-T1 Pawn positions :
-
-T1P1  - [0,0] 
-T1P2  - [0,1] 
-..
-
-T2P1 - [7,0]
-T2P2 - [7,1] 
-.. 
-
-PawnSelection - 
-
-Transition 
-
-
-Transitions : 
-P - move (vertical) 
-    T1 - r,c --> r+1,c  
-    
-    T2 - r,c --> r-1, c
-    
-    NOT condition - T1 : r+1,c T2 : r-1,c empty  OR WIN 
-
-P - kill (diagonal)
-
-    T1 -- T2  :  (T1 (r,c) & T2 (r+1, c+1)) OR (T1 (r,c) & T2 (r+1, c-1)) 
-    T2 -- T1  : (T2 (r,c) & T1 (r-1, c-1) OR (T2 (r,c) & T1 (r-1, c+1)))
-
-P - win 
-    T1 - r == 7 
-    T2 - r == 0 
-
-    T1 - [] OR T2 - []
-
-P - draw 
-
-<!-- Tables  -->
-
-INITIAL_STATE 
-TEAMS
-
-Game --> Pawn
-
-    state - enum - progress, completed  
-    final_state - string - "WT1", "WT2", ..  
-
-
-Pawn
-    row
-    column
-    team
-    game_id
-     
-
+- The board has 8 rows and 8 columns, each cell identified by a `(row, column)` pair, with values from `0` to `7`.
+- Each player (Team 1 and Team 2) starts with 8 pawns, one in every column of their back row.
+  - Team 1's pawns start on row `0`.
+  - Team 2's pawns start on row `7`.
+- Players alternate turns, starting with Team 1. On a turn, a player must move exactly one of their own pawns.
+- A pawn can move in one of two ways:
+  - **Move**: one cell straight ahead (Team 1 moves toward increasing rows, Team 2 toward decreasing rows), only if that cell is empty.
+  - **Capture**: one cell diagonally ahead, only if that cell is occupied by an opposing pawn. The opposing pawn is removed from the board.
+- A player wins when either:
+  - One of their pawns reaches the opposite back row (Team 1 reaches row `7`, Team 2 reaches row `0`), or
+  - Every one of the opponent's pawns has been captured.
+- The game ends immediately once a player wins.
